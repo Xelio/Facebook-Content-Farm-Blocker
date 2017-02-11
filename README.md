@@ -16,8 +16,8 @@ Before:
 
 ![Before](https://github.com/Xelio/Facebook-Content-Farm-Blocker/raw/master/fbcfb_before.jpg)
 
-
 After:
+
 ![After](https://github.com/Xelio/Facebook-Content-Farm-Blocker/raw/master/fbcfb_after.jpg)
 
 ----------
