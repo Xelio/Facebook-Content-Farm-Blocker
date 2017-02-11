@@ -9,7 +9,7 @@ Enough is enough, this Tampermonkey/Greasemonkey script hide content farm articl
 ##Installation
 
 1. Install [Tampermonkey - Chrome Web Store](https://chrome.google.com/webstore/detail/opjaibbmmpldcncnbbglondckfnokfpm?hl=zh-TW) for Chrome or [Greasemonkey :: Add-ons for Firefox] (https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) for Firefox
-2. Import facebook-content-farm-blocker.user.js to enable the function.
+2. Import [facebook-content-farm-blocker.user.js](https://github.com/Xelio/Facebook-Content-Farm-Blocker/raw/master/facebook-content-farm-blocker.user.js)  to enable the function.
 
 ##Screenshot
 Before:
