@@ -254,7 +254,7 @@
   var monitorContainter = 'div#stream_pagelet,div#pagelet_group_mall,div#recent_capsule_container';
   $j(monitorContainter).on('DOMSubtreeModified', function(mutations) {
 
-    var contentFarmLink = $j(mutations.target).find('div[role="article"] a').filter(function(i, a) {
+    var contentFarmLink = $j(mutations.target).find('a').filter(function(i, a) {
       var link = $j(a);
       var linkHref = link.attr('href');
       var linkText = link.parent().text();
