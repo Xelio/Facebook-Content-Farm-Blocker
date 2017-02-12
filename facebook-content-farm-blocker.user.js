@@ -3,7 +3,7 @@
 // @author         Xelio Cheong
 // @description    The script hide content farm article from Facebook
 // @namespace      http://xelio.eu.org
-// @version        1.1
+// @version        1.2
 // @include        https://*.facebook.com/
 // @include        https://*.facebook.com/*
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
@@ -255,14 +255,12 @@
   var monitorContainer = 'div#stream_pagelet,div#pagelet_group_mall,div#recent_capsule_container';
   var removeContainer = 'div[role="article"],div[data-testid="fbfeed_story"]';
 
-  // Monitor entries added to page
-  $j(monitorContainer).on('DOMSubtreeModified', function(mutations) {
-
+  var removeContentFarm = function(e) {
     // 1. Check any link contain content farm domain
-    var contentFarmLink = $j(mutations.target).find('a').filter(function(i, a) {
+    var contentFarmLink = e.find('a').filter(function(i, a) {
       var link = $j(a);
-      var linkHref = link.attr('href');
-      var linkText = link.parent().text();
+      var linkHref = link.attr('href') || '';
+      var linkText = link.parent().text() || '';
 
       return blocklist.some(function(domain) {
         return linkHref.includes(domain) || linkText.includes(domain);
@@ -284,5 +282,11 @@
 
       article.html('Content farm article removed.');
     });
-  });
+  };
+
+  // Check loaded entries
+  removeContentFarm($j(monitorContainer));
+
+  // Monitor entries added to page
+  $j(monitorContainer).on('DOMSubtreeModified', function(mutations) { removeContentFarm($j(mutations.target)); });
 })();
