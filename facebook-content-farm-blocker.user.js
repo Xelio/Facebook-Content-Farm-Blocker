@@ -3,10 +3,11 @@
 // @author         Xelio Cheong
 // @description    The script hide content farm article from Facebook
 // @namespace      http://xelio.eu.org
-// @version        1.0
+// @version        1.1
 // @include        https://*.facebook.com/
 // @include        https://*.facebook.com/*
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
+// @grant          none
 // @copyright      2017, Xelio
 // @source         https://github.com/Xelio/Facebook-Content-Farm-Blocker
 // ==/UserScript==
@@ -31,6 +32,8 @@
 
 // Content farm domain list from https://github.com/benlau/ihatecontentfarms
   var blocklist = [
+'twgreatdaily.com',
+'thegreatdaily.com',
 '163nvren.com',
 '360doc.com',
 '7jiu.com.hk',
@@ -212,7 +215,6 @@
 'superfun-e.com',
 'teepr.com',
 'thefundaily.com',
-'thegreatdaily.com',
 'thegreendaily.net',
 'thehealthdaily.org',
 'tipelse.com',
@@ -220,7 +222,6 @@
 'ttshow.tw',
 'tw.anyelse.com',
 'tw.jdkartsports.nl',
-'twgreatdaily.com',
 'vdoobv.com',
 'video-lab.net',
 'viralane.com',
@@ -251,25 +252,37 @@
 'zhulinlin.net'
     ];
 
-  var monitorContainter = 'div#stream_pagelet,div#pagelet_group_mall,div#recent_capsule_container';
-  $j(monitorContainter).on('DOMSubtreeModified', function(mutations) {
+  var monitorContainer = 'div#stream_pagelet,div#pagelet_group_mall,div#recent_capsule_container';
+  var removeContainer = 'div[role="article"],div[data-testid="fbfeed_story"]';
 
+  // Monitor entries added to page
+  $j(monitorContainer).on('DOMSubtreeModified', function(mutations) {
+
+    // 1. Check any link contain content farm domain
     var contentFarmLink = $j(mutations.target).find('a').filter(function(i, a) {
       var link = $j(a);
       var linkHref = link.attr('href');
       var linkText = link.parent().text();
-      var matched = $j.grep(blocklist, function(domain) {
+
+      return blocklist.some(function(domain) {
         return linkHref.includes(domain) || linkText.includes(domain);
       });
-      return matched.length !== 0;
     });
 
-    if(contentFarmLink.length !== 0) {
-      contentFarmLink.each(function() {
-        var article = $j(this).parents('div[role="article"]').last();
-        log(article.text());
-        article.html('Content farm article removed.');
-      });
-    }
+    // 2. Remove articles containing the links in step 1
+    contentFarmLink.each(function() {
+      var article = $j(this).parents(removeContainer).last();
+
+      if(debug) {
+        log({
+          articleFound: article.length > 0,
+          link: this,
+          article: article.clone(),
+          articleText: article.text()
+        });
+      }
+
+      article.html('Content farm article removed.');
+    });
   });
 })();
