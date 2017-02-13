@@ -3,7 +3,7 @@
 // @author         Xelio Cheong
 // @description    The script hide content farm article from Facebook
 // @namespace      http://xelio.eu.org
-// @version        1.2
+// @version        1.3
 // @include        https://*.facebook.com/
 // @include        https://*.facebook.com/*
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
@@ -288,5 +288,5 @@
   removeContentFarm($j(monitorContainer));
 
   // Monitor entries added to page
-  $j(monitorContainer).on('DOMSubtreeModified', function(mutations) { removeContentFarm($j(mutations.target)); });
+  $j(document).on('DOMSubtreeModified', monitorContainer, function(mutations) { removeContentFarm($j(mutations.target)); });
 })();
